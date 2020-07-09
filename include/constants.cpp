@@ -14,11 +14,12 @@ const int FRAMERATE = 120;
 
 sf::Texture IMG_PLAINS[10];
 sf::Texture IMG_WALLE[9];
+sf::Texture IMG_ROCKS[4];
 
 std::map<int, bool> KEYS_PRESSED;
 
-std::vector<Tile> currentChunk;
-std::vector< std::vector<Tile> > chunks;
+std::vector< std::vector<Tile*> > currentChunk;
+std::vector< std::vector< std::vector <Tile*> > > chunks;
 
 sf::Clock TICK_CLOCK;
 sf::Clock ANIM_CLOCKS[1];

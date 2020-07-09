@@ -1,6 +1,35 @@
 #include "functions.hpp"
+#include <iostream>
 
-void moveEntities()
+using namespace std;
+using namespace sf;
+
+void generateChunk()
+{
+	cout << WIDTH/24 << endl << HEIGHT/24 << endl;
+	for(int i = 0; i < WIDTH/24; i++)
+	{
+		vector<Tile*> t;
+		currentChunk.push_back(t);
+		for(int j = 0; j < HEIGHT/24; j++)
+		{
+			Tile *tile;
+			int dummy = rand()%100;
+			if(dummy == 0) 
+			{
+				tile = new Tile(1, i, j, true);
+			}
+			else 
+			{
+				tile = new Tile(0, i, j, false);
+			}
+
+			currentChunk[i].push_back(tile);
+		}
+	}
+}
+
+bool movePlayer()
 {
 	double speedModifier = 1;
 	double direction = 0;
@@ -65,7 +94,7 @@ void moveEntities()
 	{
 		direction = -1;
 	}
-	else if(KEYS_PRESSED[71] && KEYS_PRESSED[72] && KEYS_PRESSED[73] && KEYS_PRESSED[74]) //1111 Left & Right & Up & Down
+	else if(KEYS_PRESSED[71] && KEYS_PRESSED[72] && KEYS_PRESSED[73] && KEYS_PRESSED[74]) //1111 Left & Right &	 Up & Down
 	{
 		direction = -1;
 	}
@@ -73,7 +102,62 @@ void moveEntities()
 	if(direction != -1)
 	{
 		WALL_E->setDirection(direction);
-		WALL_E->move(currentChunk);
+		return WALL_E->move(currentChunk);
+	}
+
+	return false;
+}
+
+void drawMap(RenderWindow *window)
+{
+	int n_tilesOnWidth(currentChunk.size()), n_tilesOnHeight;
+
+	for(int i = 0; i < n_tilesOnWidth; i++)
+	{
+		n_tilesOnHeight = currentChunk[i].size();
+		for(int j = 0; j < n_tilesOnHeight; j++)
+		{
+			Tile *t = currentChunk[i][j];
+			Sprite sprite;
+
+			sprite.setPosition(Vector2f(i * 24, j * 24));
+			sprite.setTexture(IMG_PLAINS[t->getSpriteMeta()]);
+			switch(t->getId())
+			{	
+				default:
+				case 0: //plain
+				window->draw(sprite);
+				break;
+			}
+		}
 	}
 }
 
+void drawRocks(RenderWindow * window)
+{
+	int n_tilesOnWidth(currentChunk.size()), n_tilesOnHeight;
+
+	for(int i = 0; i < n_tilesOnWidth; i++)
+	{
+		n_tilesOnHeight = currentChunk[i].size();
+		for(int j = 0; j < n_tilesOnHeight; j++)
+		{
+			Tile *t = currentChunk[i][j];
+			Sprite sprite;
+
+			sprite.setPosition(i*24, j*24);
+			sprite.setTexture(IMG_ROCKS[3]);
+			sprite.setOrigin(0,48);
+			sprite.move(Vector2f(0,38));
+			sprite.setScale(Vector2f(1,0.75));
+
+			t->setHitbox(sprite.getGlobalBounds());
+			switch(t->getId())
+			{
+				case 1:
+				window->draw(sprite);
+				break;
+			}
+		}
+	}
+}

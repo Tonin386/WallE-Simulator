@@ -16,23 +16,23 @@ class WallE {
 public:
 	WallE();
 
-	virtual void			move(std::vector<Tile> map, double speedModifier = 1);
+	virtual bool			move(std::vector< std::vector<Tile*> > map, double speedModifier = 1); //returns 1 if moved, 0 else
 
 	virtual void 			updateSpriteState();
 
 	virtual void 			setPosition(int x, int y);
-	virtual void 			setHitboxRect(int w, int h);
+	virtual void 			setHitbox(sf::FloatRect hitbox);
 	virtual void 			setDirection(double direction);
 	virtual void 			setSpeed(double speed);
 	virtual void 			setSpriteState(int spriteState);
 
 	virtual sf::Vector2f 	getPosition() 		const;
-	virtual sf::Vector2f 	getHitboxRect() 	const;
+	virtual sf::FloatRect 	getHitbox()			const;
 	virtual double 			getDirection() 		const;
 	virtual double 			getSpeed() 			const;
 	virtual int 			getSpriteState() 	const;
 
-	~WallE();
+	virtual ~WallE();
 
 protected:
 private:
@@ -40,7 +40,7 @@ private:
 	/*** ENGINE ***/
 
 	sf::Vector2f _position;
-	sf::Vector2f _hitboxRect;
+	sf::FloatRect _hitbox;
 	double _direction; //in degrees
 	double _speed;
 

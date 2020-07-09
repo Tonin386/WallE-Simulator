@@ -44,16 +44,6 @@ int EventHandling(RenderWindow *window, Event e)
 
 int WindowHandling(RenderWindow *window)
 {
-	Sprite sprites[(WIDTH * HEIGHT) / (24 * 24)];
-	for(int i = 0; i < WIDTH / 24; i++)
-	{
-		for(int j = 0; j < HEIGHT / 24; j++)
-		{
-			sprites[(j * WIDTH / 24) + i].setTexture(IMG_PLAINS[rand()%10]);
-			sprites[(j * WIDTH / 24) + i].setPosition(Vector2f(i * 24, j * 24));
-		}
-	}
-
 	Sprite spr_walle;
 	spr_walle.setPosition(WALL_E->getPosition());
 	spr_walle.setTexture(IMG_WALLE[0]);
@@ -61,6 +51,8 @@ int WindowHandling(RenderWindow *window)
 
 	int code = 0;
 	bool moving = false;
+
+	generateChunk();
 
 	while(window->isOpen())
 	{
@@ -77,12 +69,14 @@ int WindowHandling(RenderWindow *window)
 		if(TICK_CLOCK.getElapsedTime().asMilliseconds() > 10)
 		{
 			TICK_CLOCK.restart();
-			moveEntities();
+			const bool moved = movePlayer();
 
-			Vector2f walleScale(1.75,1.75);
+
+			Vector2f walleScale(1.25,1.25);
 			spr_walle.setPosition(WALL_E->getPosition());
-			if(PI / 2 < WALL_E->getDirection() && WALL_E->getDirection() <= 3*PI / 2) walleScale = Vector2f(-1.75,1.75);
+			if(PI / 2 < WALL_E->getDirection() && WALL_E->getDirection() <= 3*PI / 2) walleScale = Vector2f(-1.25,1.25);
 			spr_walle.setScale(walleScale);
+			WALL_E->setHitbox(spr_walle.getGlobalBounds());
 		}
 
 		if(ANIM_CLOCKS[0].getElapsedTime().asMilliseconds() > 250 && moving)
@@ -108,19 +102,8 @@ int WindowHandling(RenderWindow *window)
 		}
 
 		window->clear();
-
-		/** DEBUG **/
-
-		for(int i = 0; i < WIDTH / 24; i++)
-		{
-			for(int j = 0; j < HEIGHT / 24; j++)
-			{
-				window->draw(sprites[(i * HEIGHT / 24) + j]);
-			}
-		}
-
-	 	/** END DEBUG **/
-
+		drawMap(window);
+		drawRocks(window);
 		window->draw(spr_walle);
 		window->display();
 	}

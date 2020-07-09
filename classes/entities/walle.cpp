@@ -1,6 +1,7 @@
 #include "WallE.hpp"
 #include "../terrain/tile.hpp"
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 using namespace sf;
@@ -8,36 +9,67 @@ using namespace sf;
 WallE::WallE()
 {
 	_position = Vector2f(100,100);
-	_hitboxRect = Vector2f(35,35);
 	_direction = 0;
 	_speed = 5;
 	_spriteState = 0;
 }
 
-void WallE::move(vector<Tile> map, double speedModifier) 
+bool WallE::move(vector< vector<Tile*> > map, double speedModifier) 
 {
-	_position.x += _speed * cos(_direction);
-	_position.y += _speed * sin(_direction);
+	Vector2f oldPos = _position;
+	Vector2f vectorMove = Vector2f(_speed * cos(_direction), _speed * sin(_direction));
 
-	if(_position.x > WIDTH)
+	if(_position.x + vectorMove.x > WIDTH)
 	{
-		_position.x -= WIDTH;
+		vectorMove.x -= WIDTH;
 	}
 
-	if(_position.x < 0)
+	if(_position.x + vectorMove.x < 0)
 	{
-		_position.x += WIDTH;
+		vectorMove.x += WIDTH;
 	}
 
-	if(_position.y > HEIGHT)
+	if(_position.y + vectorMove.y > HEIGHT)
 	{
-		_position.y -= HEIGHT;
+		vectorMove.y -= HEIGHT;
 	}
 
 	if(_position.y < 0)
 	{
-		_position.y += HEIGHT;
+		vectorMove.y += HEIGHT;
 	}
+
+	bool blocked = false;
+
+	FloatRect tempHitbox = _hitbox;
+	tempHitbox.left += vectorMove.x;
+	tempHitbox.top += vectorMove.y;
+
+	for(int i = 0; i < WIDTH/24; i++)
+	{
+		for(int j = 0; j < HEIGHT/24; j++)
+		{
+			if(map[i][j]->getIsObstacle())
+			{
+				if(tempHitbox.intersects(map[i][j]->getHitbox()))
+				{
+					blocked = true;
+					break;
+				}
+			}
+		}
+
+		if(blocked)
+			break;
+	}
+
+	if(!blocked)
+	{
+		_position.x += vectorMove.x;
+		_position.y += vectorMove.y;
+	}
+
+	return !blocked;
 }
 
 void WallE::updateSpriteState()
@@ -51,9 +83,11 @@ void WallE::setPosition(int x, int y)
 	_position = Vector2f(x,y);
 }
 
-void WallE::setHitboxRect(int w, int h)
+void WallE::setHitbox(FloatRect hitbox)
 {
-	_hitboxRect = Vector2f(w,h);
+	hitbox.top += 20;
+	hitbox.height -= 30;
+	_hitbox = hitbox;
 }
 
 void WallE::setDirection(double direction)
@@ -76,9 +110,9 @@ Vector2f WallE::getPosition() const
 	return _position;
 }
 
-Vector2f WallE::getHitboxRect() const
+FloatRect WallE::getHitbox() const
 {
-	return _hitboxRect;
+	return _hitbox;
 }
 
 double WallE::getDirection() const

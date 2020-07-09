@@ -13,13 +13,17 @@ extern std::map<int, bool> KEYS_PRESSED;
 
 extern sf::Texture IMG_PLAINS[10];
 extern sf::Texture IMG_WALLE[9];
+extern sf::Texture IMG_ROCKS[4];
 
-extern std::vector<Tile> currentChunk;
-extern std::vector< std::vector<Tile> > chunks;
+extern std::vector< std::vector<Tile*> > currentChunk;
+extern std::vector< std::vector< std::vector <Tile*> > > chunks;
 
 extern sf::Clock TICK_CLOCK;
 extern sf::Clock ANIM_CLOCKS[1];
 
 extern WallE *WALL_E;
 
-void moveEntities();
+void generateChunk();
+bool movePlayer();
+void drawMap(sf::RenderWindow *window);
+void drawRocks(sf::RenderWindow *window);

@@ -7,13 +7,13 @@ using namespace sf;
 extern const int HEIGHT, WIDTH, BITS, FRAMERATE;
 extern Texture IMG_PLAINS[10];
 extern Texture IMG_WALLE[9];
+extern Texture IMG_ROCKS[4];
 
 extern map<int, bool> KEYS_PRESSED;
 
 int main(int argc, char const *argv[])
 {
 	srand(time(NULL));
-
 
 	int height = 33;
 	int width = 1;
@@ -44,6 +44,11 @@ int main(int argc, char const *argv[])
 	IMG_WALLE[6].loadFromFile("img/sprites/characters/walle_eve_sprites.png", IntRect(5, 42, 32, 39));
 	IMG_WALLE[7].loadFromFile("img/sprites/characters/walle_eve_sprites.png", IntRect(37, 42, 34, 39));
 	IMG_WALLE[8].loadFromFile("img/sprites/characters/walle_eve_sprites.png", IntRect(72, 42, 27, 39));
+
+	IMG_ROCKS[0].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(178, 33, 24, 48));
+	IMG_ROCKS[1].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(203, 33, 24, 48));
+	IMG_ROCKS[2].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(228, 33, 24, 48));
+	IMG_ROCKS[3].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(253, 33, 24, 48));
 
 	RenderWindow window(VideoMode(WIDTH, HEIGHT, BITS), "WallE-Simulator", Style::Fullscreen);
 	WindowHandling(&window);
