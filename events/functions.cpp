@@ -4,13 +4,14 @@
 using namespace std;
 using namespace sf;
 
-void generateChunk()
+vector< vector<Tile*> > generateChunk()
 {
+	vector< vector<Tile*> > chunk;
 	cout << WIDTH/24 << endl << HEIGHT/24 << endl;
 	for(int i = 0; i < WIDTH/24; i++)
 	{
 		vector<Tile*> t;
-		currentChunk.push_back(t);
+		chunk.push_back(t);
 		for(int j = 0; j < HEIGHT/24; j++)
 		{
 			Tile *tile;
@@ -24,12 +25,14 @@ void generateChunk()
 				tile = new Tile(0, i, j, false);
 			}
 
-			currentChunk[i].push_back(tile);
+			chunk[i].push_back(tile);
 		}
 	}
+
+	return chunk;
 }
 
-bool movePlayer()
+int movePlayer()
 {
 	double speedModifier = 1;
 	double direction = 0;
@@ -105,7 +108,7 @@ bool movePlayer()
 		return WALL_E->move(currentChunk);
 	}
 
-	return false;
+	return -1;
 }
 
 void drawMap(RenderWindow *window)

@@ -16,7 +16,7 @@ class WallE {
 public:
 	WallE();
 
-	virtual bool			move(std::vector< std::vector<Tile*> > map, double speedModifier = 1); //returns 1 if moved, 0 else
+	virtual int			move(std::vector< std::vector<Tile*> > map, double speedModifier = 1); //returns 1 if moved, 0 else
 
 	virtual void 			updateSpriteState();
 

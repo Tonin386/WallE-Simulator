@@ -14,30 +14,10 @@ WallE::WallE()
 	_spriteState = 0;
 }
 
-bool WallE::move(vector< vector<Tile*> > map, double speedModifier) 
+int WallE::move(vector< vector<Tile*> > map, double speedModifier) 
 {
 	Vector2f oldPos = _position;
 	Vector2f vectorMove = Vector2f(_speed * cos(_direction), _speed * sin(_direction));
-
-	if(_position.x + vectorMove.x > WIDTH)
-	{
-		vectorMove.x -= WIDTH;
-	}
-
-	if(_position.x + vectorMove.x < 0)
-	{
-		vectorMove.x += WIDTH;
-	}
-
-	if(_position.y + vectorMove.y > HEIGHT)
-	{
-		vectorMove.y -= HEIGHT;
-	}
-
-	if(_position.y < 0)
-	{
-		vectorMove.y += HEIGHT;
-	}
 
 	bool blocked = false;
 
@@ -53,23 +33,36 @@ bool WallE::move(vector< vector<Tile*> > map, double speedModifier)
 			{
 				if(tempHitbox.intersects(map[i][j]->getHitbox()))
 				{
-					blocked = true;
-					break;
+					return -1;
 				}
 			}
 		}
-
-		if(blocked)
-			break;
 	}
 
-	if(!blocked)
+	_position.x += vectorMove.x;
+
+	if(_position.x > WIDTH)
 	{
-		_position.x += vectorMove.x;
-		_position.y += vectorMove.y;
+		return 2;
+	}
+	else if (_position.x < 0)
+	{
+		return 4;
 	}
 
-	return !blocked;
+	_position.y += vectorMove.y;
+
+	if(_position.y > HEIGHT)
+	{
+		return 3;
+	}
+	else if(_position.y < 0)
+	{
+		return 1;
+	}
+
+
+	return 0;
 }
 
 void WallE::updateSpriteState()

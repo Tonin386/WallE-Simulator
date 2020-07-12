@@ -19,7 +19,8 @@ sf::Texture IMG_ROCKS[4];
 std::map<int, bool> KEYS_PRESSED;
 
 std::vector< std::vector<Tile*> > currentChunk;
-std::vector< std::vector< std::vector <Tile*> > > chunks;
+std::map<std::pair<int,int>, std::vector< std::vector <Tile*> > > chunks;
+sf::Vector2f currentChunkCoords;
 
 sf::Clock TICK_CLOCK;
 sf::Clock ANIM_CLOCKS[1];

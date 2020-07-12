@@ -52,7 +52,9 @@ int WindowHandling(RenderWindow *window)
 	int code = 0;
 	bool moving = false;
 
-	generateChunk();
+	currentChunkCoords = Vector2f(0,0);
+	currentChunk = generateChunk();
+	chunks[make_pair(currentChunkCoords.x, currentChunkCoords.y)] = currentChunk;
 
 	while(window->isOpen())
 	{
@@ -69,8 +71,49 @@ int WindowHandling(RenderWindow *window)
 		if(TICK_CLOCK.getElapsedTime().asMilliseconds() > 10)
 		{
 			TICK_CLOCK.restart();
-			const bool moved = movePlayer();
+			const int moveCode = movePlayer();
+			bool newChunk = false;
 
+			if(moveCode != -1 && moveCode != 0)
+			{
+				newChunk = true;
+				switch(moveCode)
+				{
+					case 1:
+					currentChunkCoords.y++;
+					WALL_E->setPosition(WALL_E->getPosition().x, HEIGHT);
+					break;
+
+					case 2:
+					WALL_E->setPosition(0, WALL_E->getPosition().y);
+					currentChunkCoords.x++;
+					break;
+
+					case 3:
+					WALL_E->setPosition(WALL_E->getPosition().x, 0);
+					currentChunkCoords.y--;
+					break;
+
+					case 4:
+					WALL_E->setPosition(WIDTH, WALL_E->getPosition().y);
+					currentChunkCoords.x--;
+					break;
+
+				}
+			}
+
+			if(newChunk)
+			{
+				if(chunks.find(make_pair(currentChunkCoords.x, currentChunkCoords.y)) == chunks.end())
+				{
+					currentChunk = generateChunk();
+					chunks[make_pair(currentChunkCoords.x, currentChunkCoords.y)] = currentChunk;
+				}
+				else
+				{
+					currentChunk = chunks[make_pair(currentChunkCoords.x, currentChunkCoords.y)];
+				}
+			}
 
 			Vector2f walleScale(1.25,1.25);
 			spr_walle.setPosition(WALL_E->getPosition());
