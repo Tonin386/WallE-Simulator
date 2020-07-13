@@ -19,29 +19,29 @@ public:
 	virtual int				move(std::vector< std::vector<Tile*> > map, double speedModifier = 1);
 	virtual void			pickUpWaste(std::vector< std::vector<Tile*> > map);
 
-	virtual void 			updateSpriteState();
+	virtual void			updateSpriteState();
 
-	virtual void 			setPosition(int x, int y);
-	virtual void 			setHitbox(sf::FloatRect hitbox);
-	virtual void 			setDirection(double direction);
-	virtual void 			setSpeed(double speed);
+	virtual void			setPosition(int x, int y);
+	virtual void			setHitbox(sf::FloatRect hitbox);
+	virtual void			setDirection(double direction);
+	virtual void			setSpeed(double speed);
 	virtual void			setWasteQuantity(double q);
-	virtual void 			setMaxWasteQuantity(double mq);
-	virtual void 			setRecycling(bool recycling);
+	virtual void			setMaxWasteQuantity(double mq);
+	virtual void			setRecycling(bool recycling);
 	virtual void			setRecyclingState(int recyclingState);
-	virtual void 			setSpriteState(int spriteState);
+	virtual void			setSpriteState(int spriteState);
 
-	virtual sf::Vector2f 	getPosition() 			const;
-	virtual sf::FloatRect 	getHitbox()				const;
-	virtual double 			getDirection() 			const;
-	virtual double 			getSpeed() 				const;
-	virtual double 			getWasteQuantity()		const;
-	virtual double				getMaxWasteQuantity() 	const;
+	virtual sf::Vector2f	getPosition()			const;
+	virtual sf::FloatRect	getHitbox()				const;
+	virtual double			getDirection()			const;
+	virtual double			getSpeed()				const;
+	virtual double			getWasteQuantity()		const;
+	virtual double			getMaxWasteQuantity() 	const;
 	virtual bool			isRecycling()			const;
 	virtual int				getRecyclingState()		const;
-	virtual int 			getSpriteState() 		const;
+	virtual int				getSpriteState()		const;
 
-	virtual 				~WallE();
+	virtual					~WallE();
 
 protected:
 private:

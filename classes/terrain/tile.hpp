@@ -9,21 +9,21 @@ public:
 	Tile(int id, int x = 0, int y = 0, bool isObstacle = false);
 
 
-	virtual int				getId() 			const;
-	virtual bool 			getIsObstacle() 	const;
-	virtual bool 			getShowBorders() 	const;
-	virtual sf::Vector2f 	getCoords() 		const;
+	virtual int				getId()				const;
+	virtual bool			getIsObstacle() 	const;
+	virtual bool			getShowBorders()	const;
+	virtual sf::Vector2f	getCoords()			const;
 	virtual sf::FloatRect	getHitbox()			const;
-	virtual int 			getSpriteMeta() 	const;
+	virtual int				getSpriteMeta()		const;
 
 	virtual void			setId(int id);
-	virtual void 			setObstacle(bool o);
-	virtual void 			setShowBorders(bool b);
-	virtual void 			setCoords(int x, int y);
-	virtual void 			setHitbox(sf::FloatRect hitbox);
-	virtual void 			setSpriteMeta(int meta);
- 
-	virtual 				~Tile();
+	virtual void			setObstacle(bool o);
+	virtual void			setShowBorders(bool b);
+	virtual void			setCoords(int x, int y);
+	virtual void			setHitbox(sf::FloatRect hitbox);
+	virtual void			setSpriteMeta(int meta);
+	
+	virtual					~Tile();
 
 protected:
 private:
