@@ -2,14 +2,27 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 using namespace sf;
 using namespace std;
 
 Tile::Tile(int id, int x, int y, bool isObstacle) : _id(id), _coords(Vector2f(x,y)), _isObstacle(isObstacle)
 {
-	if(_id == 0) _spriteMeta = rand()%10;
-	else _spriteMeta = 0;
+	switch(_id)
+	{
+		case 0:
+		_spriteMeta = rand()%10;
+		break;
+
+		case 2:
+		_spriteMeta = 0;
+		break;
+
+		default:
+		_spriteMeta = 0;
+		break;
+	}
 
 	_hitbox.left = -1;
 	_hitbox.top = -1;
@@ -47,7 +60,24 @@ int Tile::getSpriteMeta() const
 
 void Tile::setId(int id)
 {
+	if(_id == 1 && id != 1) _isObstacle = false;
+
 	_id = id;
+
+	switch(_id)
+	{
+		case 0:
+		_spriteMeta = rand()%10;
+		break;
+
+		case 2:
+		_spriteMeta = 0;
+		break;
+
+		default:
+		_spriteMeta = 0;
+		break;
+	}
 }
 
 void Tile::setObstacle(bool o)

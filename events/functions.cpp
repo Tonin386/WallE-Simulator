@@ -7,7 +7,6 @@ using namespace sf;
 vector< vector<Tile*> > generateChunk()
 {
 	vector< vector<Tile*> > chunk;
-	cout << WIDTH/24 << endl << HEIGHT/24 << endl;
 	for(int i = 0; i < WIDTH/24; i++)
 	{
 		vector<Tile*> t;
@@ -29,7 +28,27 @@ vector< vector<Tile*> > generateChunk()
 		}
 	}
 
+	generateWaste(&chunk);
+
 	return chunk;
+}
+
+void generateWaste(vector< vector<Tile*> > *m)
+{
+	int seedsNumber = 2 + (rand() % 9);
+	for (int i = 0; i < seedsNumber; i++)
+	{
+		Vector2i coords(2 + (rand() % (WIDTH/24 - 2)), 2 + (rand() % (HEIGHT/24 - 2)));
+		(*m)[coords.x + 0][coords.y + 0]->setId(2 * (rand() % 2));
+		(*m)[coords.x + 0][coords.y - 1]->setId(2 * (rand() % 2));
+		(*m)[coords.x + 1][coords.y - 1]->setId(2 * (rand() % 2));
+		(*m)[coords.x + 1][coords.y + 0]->setId(2 * (rand() % 2));
+		(*m)[coords.x + 1][coords.y + 1]->setId(2 * (rand() % 2));
+		(*m)[coords.x + 0][coords.y + 1]->setId(2 * (rand() % 2));
+		(*m)[coords.x - 1][coords.y + 1]->setId(2 * (rand() % 2));
+		(*m)[coords.x - 1][coords.y + 0]->setId(2 * (rand() % 2));
+		(*m)[coords.x - 1][coords.y + 1]->setId(2 * (rand() % 2));
+	}
 }
 
 int movePlayer()
@@ -163,4 +182,61 @@ void drawRocks(RenderWindow * window)
 			}
 		}
 	}
+}
+
+void drawWaste(RenderWindow * window)
+{
+	int n_tilesOnWidth(currentChunk.size()), n_tilesOnHeight;
+
+	for(int i = 0; i < n_tilesOnWidth; i++)
+	{
+		n_tilesOnHeight = currentChunk[i].size();
+		for(int j = 0; j < n_tilesOnHeight; j++)
+		{
+			Tile *t = currentChunk[i][j];
+			if(t->getId() == 2)
+			{
+				Sprite sprite;
+
+				sprite.setPosition(i*24, j*24);
+				sprite.setTexture(IMG_WASTE[t->getSpriteMeta()]);
+
+				window->draw(sprite);
+			}
+		}
+	}
+}
+
+void drawUi(RenderWindow *window)
+{
+	double walleLoad = WALL_E->getWasteQuantity() / WALL_E->getMaxWasteQuantity();
+	cout << WALL_E->getWasteQuantity() << endl;
+	Vector2f progressbarBackgroundSize(WIDTH/6, 25);
+	Vector2f progressbarBackgroundCoords(5 * WIDTH / 6 - 50, HEIGHT - 50);
+	Vector2f progressBarSize((WIDTH/6 - 10) * walleLoad, 15);
+	Vector2f progressBarCoords(5 * WIDTH / 6 - 45, HEIGHT - 45);
+
+	VertexArray progressBar(Quads, 8);
+
+	progressBar[0].position = Vector2f(progressbarBackgroundCoords.x, progressbarBackgroundCoords.y);
+	progressBar[1].position = Vector2f(progressbarBackgroundCoords.x + progressbarBackgroundSize.x, progressbarBackgroundCoords.y);
+	progressBar[2].position = Vector2f(progressbarBackgroundCoords.x + progressbarBackgroundSize.x, progressbarBackgroundCoords.y + progressbarBackgroundSize.y);
+	progressBar[3].position = Vector2f(progressbarBackgroundCoords.x, progressbarBackgroundCoords.y + progressbarBackgroundSize.y);
+
+	progressBar[4].position = Vector2f(progressBarCoords.x, progressBarCoords.y);
+	progressBar[5].position = Vector2f(progressBarCoords.x + progressBarSize.x, progressBarCoords.y);
+	progressBar[6].position = Vector2f(progressBarCoords.x + progressBarSize.x, progressBarCoords.y + progressBarSize.y);
+	progressBar[7].position = Vector2f(progressBarCoords.x, progressBarCoords.y + progressBarSize.y);
+
+	progressBar[0].color = Color(0, 0, 0, 150);
+	progressBar[1].color = Color(0, 0, 0, 150);
+	progressBar[2].color = Color(0, 0, 0, 150);
+	progressBar[3].color = Color(0, 0, 0, 150);
+
+	progressBar[4].color = Color(237, 147, 12);
+	progressBar[5].color = Color(255, 251, 56);
+	progressBar[6].color = Color(255, 251, 56);
+	progressBar[7].color = Color(237, 147, 12);
+
+	window->draw(progressBar);
 }

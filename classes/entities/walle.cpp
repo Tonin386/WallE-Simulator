@@ -12,6 +12,10 @@ WallE::WallE()
 	_direction = 0;
 	_speed = 5;
 	_spriteState = 0;
+	_wasteQuantity = 0;
+	_maxWasteQuantity = 20;
+	_recycling = 0;
+	_recyclingState = 0;
 }
 
 int WallE::move(vector< vector<Tile*> > map, double speedModifier) 
@@ -65,6 +69,27 @@ int WallE::move(vector< vector<Tile*> > map, double speedModifier)
 	return 0;
 }
 
+void WallE::pickUpWaste(vector< vector<Tile*> > map)
+{
+	for(int i = 0; i < WIDTH/24; i++)
+	{
+		for(int j = 0; j < HEIGHT/24; j++)
+		{
+			if(map[i][j]->getId() == 2)
+			{
+				if(_hitbox.intersects(map[i][j]->getHitbox()))
+				{
+					if(_wasteQuantity+1<=_maxWasteQuantity) 
+					{
+						_wasteQuantity++;
+						map[i][j]->setId(0);
+					}
+				}
+			}
+		}
+	}
+}
+
 void WallE::updateSpriteState()
 {
 	_spriteState++;
@@ -93,6 +118,26 @@ void WallE::setSpeed(double speed)
 	_speed = speed;
 }
 
+void WallE::setWasteQuantity(double q)
+{
+	_wasteQuantity = q;
+}
+
+void WallE::setMaxWasteQuantity(double mq)
+{
+	_maxWasteQuantity = mq;
+}
+
+void WallE::setRecycling(bool recycling)
+{
+	_recycling = recycling;
+}
+
+void WallE::setRecyclingState(int recyclingState)
+{
+	_recyclingState = recyclingState;
+}
+
 void WallE::setSpriteState(int spriteState)
 {
 	_spriteState = spriteState;
@@ -116,6 +161,26 @@ double WallE::getDirection() const
 double WallE::getSpeed() const
 {
 	return _speed;
+}
+
+double WallE::getWasteQuantity() const
+{
+	return _wasteQuantity;
+}
+
+double WallE::getMaxWasteQuantity() const
+{
+	return _maxWasteQuantity;
+}
+
+bool WallE::isRecycling() const
+{
+	return _recycling;
+}
+
+int WallE::getRecyclingState() const
+{
+	return _recyclingState;
 }
 
 int WallE::getSpriteState() const

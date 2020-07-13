@@ -8,6 +8,7 @@ extern const int HEIGHT, WIDTH, BITS, FRAMERATE;
 extern Texture IMG_PLAINS[10];
 extern Texture IMG_WALLE[9];
 extern Texture IMG_ROCKS[4];
+extern sf::Texture IMG_WASTE[7];
 
 extern map<int, bool> KEYS_PRESSED;
 
@@ -26,8 +27,6 @@ int main(int argc, char const *argv[])
 			width = 1;
 			height += 25;
 		}
-
-		cout << "Sprite #" << i << " loaded" << endl;
 	}
 
 	for(int i = 0; i < 200; i++)
@@ -49,6 +48,14 @@ int main(int argc, char const *argv[])
 	IMG_ROCKS[1].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(203, 33, 24, 48));
 	IMG_ROCKS[2].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(228, 33, 24, 48));
 	IMG_ROCKS[3].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(253, 33, 24, 48));
+
+	IMG_WASTE[0].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(1, 96, 24, 24));
+	IMG_WASTE[1].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(26, 96, 24, 24));
+	IMG_WASTE[2].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(51, 96, 24, 24));
+	IMG_WASTE[3].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(76, 96, 24, 24));
+	IMG_WASTE[4].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(101, 96, 24, 24));
+	IMG_WASTE[5].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(126, 96, 24, 24));
+	IMG_WASTE[6].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(151, 96, 24, 24));
 
 	RenderWindow window(VideoMode(WIDTH, HEIGHT, BITS), "WallE-Simulator", Style::Fullscreen);
 	WindowHandling(&window);

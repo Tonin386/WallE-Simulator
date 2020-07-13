@@ -20,6 +20,7 @@ int EventHandling(RenderWindow *window, Event e)
 		code = 100 + e.key.code;
 
 		/**
+		57 -> SpaceS
 		71 -> Left 
 		72 -> Right
 		73 -> Up
@@ -60,6 +61,8 @@ int WindowHandling(RenderWindow *window)
 	{
 		if(KEYS_PRESSED[71] || KEYS_PRESSED[72] || KEYS_PRESSED[73] || KEYS_PRESSED[74]) moving = true;
 		else moving = false;
+
+		if(KEYS_PRESSED[57]) WALL_E->pickUpWaste(currentChunk);
 
 		Event e;
 		while(window->pollEvent(e))
@@ -147,7 +150,9 @@ int WindowHandling(RenderWindow *window)
 		window->clear();
 		drawMap(window);
 		drawRocks(window);
+		drawWaste(window);
 		window->draw(spr_walle);
+		drawUi(window);
 		window->display();
 	}
 

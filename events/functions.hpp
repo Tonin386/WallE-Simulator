@@ -14,6 +14,7 @@ extern std::map<int, bool> KEYS_PRESSED;
 extern sf::Texture IMG_PLAINS[10];
 extern sf::Texture IMG_WALLE[9];
 extern sf::Texture IMG_ROCKS[4];
+extern sf::Texture IMG_WASTE[7];
 
 extern std::vector< std::vector<Tile*> > currentChunk;
 extern std::map<std::pair<int,int>, std::vector< std::vector <Tile*> > > chunks;
@@ -25,6 +26,9 @@ extern sf::Clock ANIM_CLOCKS[1];
 extern WallE *WALL_E;
 
 std::vector< std::vector<Tile*> > generateChunk();
+void generateWaste(std::vector< std::vector<Tile*> > *m);
 int movePlayer(); //-1 Error | 0 In same chunk | 1 Chunk top | 2 Chunk right | 3 Chunk bottom | 4 Chunk left
 void drawMap(sf::RenderWindow *window);
 void drawRocks(sf::RenderWindow *window);
+void drawWaste(sf::RenderWindow *window);
+void drawUi(sf::RenderWindow *window);

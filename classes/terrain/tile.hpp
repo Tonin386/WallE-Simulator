@@ -23,7 +23,7 @@ public:
 	virtual void 			setHitbox(sf::FloatRect hitbox);
 	virtual void 			setSpriteMeta(int meta);
  
-	virtual ~Tile();
+	virtual 				~Tile();
 
 protected:
 private:
