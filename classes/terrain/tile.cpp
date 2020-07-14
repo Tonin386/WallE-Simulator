@@ -12,7 +12,7 @@ Tile::Tile(int id, int x, int y, bool isObstacle) : _id(id), _coords(Vector2f(x,
 	switch(_id)
 	{
 		case 0:
-		_spriteMeta = rand()%10;
+		_spriteMeta = rand()%9;
 		break;
 
 		case 2:

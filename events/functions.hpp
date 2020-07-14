@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <map>
+#include <string>
 
 extern const int HEIGHT, WIDTH, BITS, FRAMERATE;
 extern const double PI;
@@ -15,6 +16,8 @@ extern sf::Texture IMG_PLAINS[10];
 extern sf::Texture IMG_WALLE[9];
 extern sf::Texture IMG_ROCKS[4];
 extern sf::Texture IMG_WASTE[7];
+
+extern sf::Font walle_font;
 
 extern std::vector< std::vector<Tile*> > currentChunk;
 extern std::map<std::pair<int,int>, std::vector< std::vector <Tile*> > > chunks;

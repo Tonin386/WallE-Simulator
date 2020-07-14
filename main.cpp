@@ -8,7 +8,8 @@ extern const int HEIGHT, WIDTH, BITS, FRAMERATE;
 extern Texture IMG_PLAINS[10];
 extern Texture IMG_WALLE[9];
 extern Texture IMG_ROCKS[4];
-extern sf::Texture IMG_WASTE[7];
+extern Texture IMG_WASTE[7];
+extern Font walle_font;
 
 extern map<int, bool> KEYS_PRESSED;
 
@@ -57,7 +58,12 @@ int main(int argc, char const *argv[])
 	IMG_WASTE[5].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(126, 96, 24, 24));
 	IMG_WASTE[6].loadFromFile("img/sprites/terrain/advance_wars.png", IntRect(151, 96, 24, 24));
 
-	RenderWindow window(VideoMode(WIDTH, HEIGHT, BITS), "WallE-Simulator", Style::Fullscreen);
+	walle_font.loadFromFile("fonts/wall-e-movie.ttf");
+
+	ContextSettings settings;
+	settings.antialiasingLevel = 8;
+
+	RenderWindow window(VideoMode(WIDTH, HEIGHT, BITS), "WallE-Simulator", Style::Fullscreen, settings);
 	WindowHandling(&window);
 
 	return 0;

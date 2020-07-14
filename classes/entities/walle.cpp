@@ -10,7 +10,7 @@ WallE::WallE()
 {
 	_position = Vector2f(100,100);
 	_direction = 0;
-	_speed = 5;
+	_speed = 3;
 	_spriteState = 0;
 	_wasteQuantity = 0;
 	_maxWasteQuantity = 20;
@@ -94,6 +94,36 @@ void WallE::updateSpriteState()
 {
 	_spriteState++;
 	_spriteState %= 2;
+}
+
+View WallE::getView()
+{
+	Vector2f viewPosition(_position);
+	Vector2f viewSize(WIDTH/4, HEIGHT/4);
+
+	if(_position.x + viewSize.x/2 > WIDTH)
+	{
+		viewPosition.x = WIDTH - viewSize.x/2;
+	}
+	else if(_position.x - viewSize.x/2 < 0)
+	{
+		viewPosition.x = viewSize.x/2;
+	}
+
+	if(_position.y + viewSize.y/2 > HEIGHT)
+	{
+		viewPosition.y = HEIGHT - viewSize.y/2;
+	}
+	else if(_position.y - viewSize.y/2 < 0)
+	{
+		viewPosition.y = viewSize.y/2;
+	}
+
+	View view;
+	view.setCenter(viewPosition);
+	view.setSize(viewSize);
+
+	return view;
 }
 
 void WallE::setPosition(int x, int y)

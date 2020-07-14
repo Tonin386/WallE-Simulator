@@ -20,6 +20,7 @@ public:
 	virtual void			pickUpWaste(std::vector< std::vector<Tile*> > map);
 
 	virtual void			updateSpriteState();
+	virtual sf::View		getView();
 
 	virtual void			setPosition(int x, int y);
 	virtual void			setHitbox(sf::FloatRect hitbox);

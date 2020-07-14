@@ -14,7 +14,7 @@ vector< vector<Tile*> > generateChunk()
 		for(int j = 0; j < HEIGHT/24; j++)
 		{
 			Tile *tile;
-			int dummy = rand()%100;
+			int dummy = rand()%50;
 			if(dummy == 0) 
 			{
 				tile = new Tile(1, i, j, true);
@@ -35,19 +35,29 @@ vector< vector<Tile*> > generateChunk()
 
 void generateWaste(vector< vector<Tile*> > *m)
 {
-	int seedsNumber = 2 + (rand() % 9);
+	int seedsNumber = 5 + (rand() % 9);
 	for (int i = 0; i < seedsNumber; i++)
 	{
-		Vector2i coords(2 + (rand() % (WIDTH/24 - 2)), 2 + (rand() % (HEIGHT/24 - 2)));
+		Vector2i coords(2 + (rand() % (WIDTH/24 - 3)), 2 + (rand() % (HEIGHT/24 - 3)));
+		cout << "Generating on (" << coords.x << ";" << coords.y << ")" << endl;
 		(*m)[coords.x + 0][coords.y + 0]->setId(2 * (rand() % 2));
+		cout << "Passed 0" << endl;
 		(*m)[coords.x + 0][coords.y - 1]->setId(2 * (rand() % 2));
+		cout << "Passed 1" << endl;
 		(*m)[coords.x + 1][coords.y - 1]->setId(2 * (rand() % 2));
+		cout << "Passed 2" << endl;
 		(*m)[coords.x + 1][coords.y + 0]->setId(2 * (rand() % 2));
+		cout << "Passed 3" << endl;
 		(*m)[coords.x + 1][coords.y + 1]->setId(2 * (rand() % 2));
+		cout << "Passed 4" << endl;
 		(*m)[coords.x + 0][coords.y + 1]->setId(2 * (rand() % 2));
+		cout << "Passed 5" << endl;
 		(*m)[coords.x - 1][coords.y + 1]->setId(2 * (rand() % 2));
+		cout << "Passed 6" << endl;
 		(*m)[coords.x - 1][coords.y + 0]->setId(2 * (rand() % 2));
+		cout << "Passed 7" << endl;
 		(*m)[coords.x - 1][coords.y + 1]->setId(2 * (rand() % 2));
+		cout << "Passed 8" << endl;
 	}
 }
 
@@ -210,11 +220,12 @@ void drawWaste(RenderWindow * window)
 void drawUi(RenderWindow *window)
 {
 	double walleLoad = WALL_E->getWasteQuantity() / WALL_E->getMaxWasteQuantity();
-	cout << WALL_E->getWasteQuantity() << endl;
-	Vector2f progressbarBackgroundSize(WIDTH/6, 25);
-	Vector2f progressbarBackgroundCoords(5 * WIDTH / 6 - 50, HEIGHT - 50);
-	Vector2f progressBarSize((WIDTH/6 - 10) * walleLoad, 15);
-	Vector2f progressBarCoords(5 * WIDTH / 6 - 45, HEIGHT - 45);
+	Vector2f viewCenter = WALL_E->getView().getCenter();
+	Vector2f viewSize = WALL_E->getView().getSize();
+	Vector2f progressbarBackgroundSize(viewSize.x/4, 15);
+	Vector2f progressbarBackgroundCoords(viewCenter.x + (3 * viewSize.x / (4*2)) - 70, viewCenter.y + (viewSize.y/2) - 30);
+	Vector2f progressBarSize((viewSize.x/4 - 4) * walleLoad, 11);
+	Vector2f progressBarCoords(viewCenter.x + (3 * viewSize.x / (4*2)) - 68, viewCenter.y + (viewSize.y/2) - 28);
 
 	VertexArray progressBar(Quads, 8);
 
@@ -238,5 +249,15 @@ void drawUi(RenderWindow *window)
 	progressBar[6].color = Color(255, 251, 56);
 	progressBar[7].color = Color(237, 147, 12);
 
+	Text textLoad;
+	textLoad.setFont(walle_font);
+	textLoad.setCharacterSize(10);
+	textLoad.setFillColor(Color::Black);
+	textLoad.setString(to_string((int)(walleLoad*100)) + "%");
+	textLoad.setOrigin(textLoad.getGlobalBounds().width/2, textLoad.getGlobalBounds().height/2);
+	textLoad.setPosition(progressbarBackgroundCoords.x + progressbarBackgroundSize.x / 2, -3 + progressbarBackgroundCoords.y + progressbarBackgroundSize.y / 2);
+
 	window->draw(progressBar);
+	window->draw(textLoad);
+
 }

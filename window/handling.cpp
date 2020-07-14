@@ -118,9 +118,9 @@ int WindowHandling(RenderWindow *window)
 				}
 			}
 
-			Vector2f walleScale(1.25,1.25);
+			Vector2f walleScale(0.75,0.75);
 			spr_walle.setPosition(WALL_E->getPosition());
-			if(PI / 2 < WALL_E->getDirection() && WALL_E->getDirection() <= 3*PI / 2) walleScale = Vector2f(-1.25,1.25);
+			if(PI / 2 < WALL_E->getDirection() && WALL_E->getDirection() <= 3*PI / 2) walleScale = Vector2f(-0.75,0.75);
 			spr_walle.setScale(walleScale);
 			WALL_E->setHitbox(spr_walle.getGlobalBounds());
 		}
@@ -147,12 +147,17 @@ int WindowHandling(RenderWindow *window)
 			spr_walle.setTexture(IMG_WALLE[0]);
 		}
 
+		window->setView(WALL_E->getView());
+
 		window->clear();
 		drawMap(window);
 		drawRocks(window);
 		drawWaste(window);
 		window->draw(spr_walle);
 		drawUi(window);
+
+
+
 		window->display();
 	}
 

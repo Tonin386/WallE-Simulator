@@ -17,6 +17,8 @@ sf::Texture IMG_WALLE[9];
 sf::Texture IMG_ROCKS[4];
 sf::Texture IMG_WASTE[7];
 
+sf::Font walle_font;
+
 std::map<int, bool> KEYS_PRESSED;
 
 std::vector< std::vector<Tile*> > currentChunk;
